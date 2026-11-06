@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>F-14 Tomcat — variable-sweep wings (Three.js)</title>
+    <link rel="icon" href="data:," />
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #8fa6bd;
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      }
+      canvas {
+        display: block;
+      }
+      #hud {
+        position: fixed;
+        left: 14px;
+        top: 14px;
+        width: 236px;
+        padding: 10px 12px 12px;
+        border-radius: 10px;
+        background: rgba(12, 18, 26, 0.58);
+        backdrop-filter: blur(6px);
+        color: #e8eef4;
+        font-size: 12px;
+        line-height: 1.55;
+        pointer-events: none;
+        user-select: none;
+      }
+      #hud h1 {
+        margin: 0 0 6px;
+        font-size: 14px;
+        font-weight: 650;
+        letter-spacing: 0.04em;
+      }
+      #planform {
+        width: 220px;
+        height: 180px;
+        display: block;
+        margin: 0 auto 6px;
+      }
+      #readout b {
+        color: #9fd8ff;
+        font-weight: 600;
+      }
+      #readout .dim {
+        color: #9aa7b3;
+      }
+      #readout .warn {
+        color: #ffb36b;
+      }
+      #help {
+        position: fixed;
+        left: 14px;
+        bottom: 12px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: rgba(12, 18, 26, 0.5);
+        color: #d5dde5;
+        font-size: 11.5px;
+        line-height: 1.6;
+        pointer-events: none;
+      }
+      #help kbd {
+        display: inline-block;
+        min-width: 14px;
+        padding: 0 4px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.16);
+        font: 600 11px ui-monospace, monospace;
+        text-align: center;
+      }
+      #loading {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-size: 15px;
+        letter-spacing: 0.05em;
+      }
+      @media (max-width: 700px) {
+        #help {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loading">Building airframe…</div>
+    <div id="hud">
+      <h1>F-14 TOMCAT</h1>
+      <canvas id="planform" width="440" height="360"></canvas>
+      <div id="readout"></div>
+    </div>
+    <div id="help">
+      <kbd>[</kbd> <kbd>]</kbd> sweep · <kbd>M</kbd> sweep mode · <kbd>F</kbd> flaps · <kbd>G</kbd> gear · <kbd>C</kbd> canopy ·
+      <kbd>H</kbd> hook · <kbd>B</kbd> speed brakes · <kbd>A</kbd> afterburner<br />
+      <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> stick · <kbd>Q</kbd><kbd>E</kbd> rudder · <kbd>L</kbd> lights ·
+      <kbd>R</kbd> auto-rotate · <kbd>1</kbd>–<kbd>7</kbd> camera views · drag to orbit, scroll to zoom
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
