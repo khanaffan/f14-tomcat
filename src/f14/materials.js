@@ -282,6 +282,8 @@ export function createMaterials(renderer, schemeKey = 'lowvis') {
   };
   m.setLivery(schemeKey);
   m.schemes = SCHEMES;
+  // exposed so exporters can bake the projected livery into UV-mapped textures
+  m.liveryUniforms = { body: bodyU, wing: wingU };
   return m;
 }
 

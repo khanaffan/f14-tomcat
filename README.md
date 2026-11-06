@@ -55,6 +55,44 @@ npm run build     # production build in dist/
 npm run preview   # serve the production build
 ```
 
+## Flying it in CesiumJS
+
+![F-14 climbing out of NAS Miramar in CesiumJS](docs/cesium.jpg)
+
+The same procedural jet flies over real San Diego terrain in [CesiumJS](https://cesium.com/platform/cesiumjs/). At startup the Three.js model is exported to glTF, with the livery baked into textures. Cesium then animates the wing sweep, control surfaces, gear, flaps, canopy and afterburner node by node.
+
+- **Demo flight** (default): an autopilot flies the route below, then loops.
+  1. Afterburner takeoff from NAS Miramar runway 24R.
+  2. Down the coast and around Point Loma.
+  3. A high-speed pass over North Island and downtown, with the wings sweeping back.
+  4. An ILS approach and landing on 06L.
+  5. Taxi stop, canopy open, wings to oversweep.
+- **Manual flight**: press **P** at any time. Keyboard controls are shown on screen (**?** toggles them).
+- **Cameras** (**V**): chase, cockpit, fly-by, free.
+
+### Option 1: in this repo (`cesium.html`)
+
+```bash
+cp .env.example .env   # optional: add your free Cesium ion token
+npm install
+npm run dev            # open http://localhost:5173/cesium.html
+```
+
+Without a token, Cesium's default demo token is used and a banner is shown. URL options:
+- `?mode=manual`
+- `?camera=cockpit|flyby|free`
+- `?livery=highvis`
+- `?buildings=0`
+- `?shadows=0`
+
+### Option 2: Cesium Sandcastle (no install)
+
+1. Open <https://sandcastle.cesium.com>.
+2. Replace the code with [`sandcastle/main.js`](sandcastle/main.js).
+3. Press **Run**.
+
+The script loads [`sandcastle/f14-cesium.js`](sandcastle/f14-cesium.js) from jsDelivr. This is a self-contained ES module with three.js bundled in. Rebuild it after changing `src/` with `npm run build:sandcastle`.
+
 ## Project structure
 
 ```
@@ -73,6 +111,13 @@ src/f14/
   cockpit.js          cockpit interior, seats, crew, canopy
   livery.js           procedural paint schemes and markings (canvas textures)
   materials.js        PBR materials
+cesium.html           CesiumJS flight page
+src/cesium/
+  app.js              startF14Flight(Cesium, viewer): model sync, cameras, HUD, keyboard
+  sim.js              point-mass flight model, demo autopilot, Miramar runways and route
+  gltf.js             Three.js → GLB export with baked livery
+  page.js             cesium.html entry (viewer, ion token, URL options)
+sandcastle/           Sandcastle script and prebuilt bundle
 ```
 
 For debugging in the browser console, `window.__f14` exposes the jet, scene, camera and helpers.
@@ -92,6 +137,15 @@ For debugging in the browser console, `window.__f14` exposes the jet, scene, cam
 
 The result is about 4,100 lines of JavaScript.
 
+The CesiumJS flight was added the next day from the follow-up prompts *"can we make this jet fly in cesium?"* and *"can we do that in cesium sandbox?"*. It took about **35 minutes** (09:38 to ~10:13 EST, 6 Nov 2026) and covered:
+- GLB export with baked livery;
+- the flight model and demo autopilot;
+- the Cesium app, HUD and cameras;
+- the Sandcastle bundle;
+- headless browser tests of the takeoff, high-speed pass, landing and manual flight.
+
+It added about 1,300 lines.
+
 ## Notes
 
-This is a visual model, not a flight simulator. Dimensions and sweep limits follow published F-14 figures. Some details are simplified for real-time rendering.
+The Three.js viewer is a visual model, not a flight simulator. The Cesium flight model is a simple point-mass approximation. Dimensions and sweep limits follow published F-14 figures. Some details are simplified for real-time rendering.
